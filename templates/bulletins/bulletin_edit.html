@@ -1,0 +1,26 @@
+{% extends 'base.html' %}
+
+{% block title %}Редактировать объявление{% endblock %}
+
+{% block content %}
+<div class="row justify-content-center">
+    <div class="col-md-8">
+        <div class="card mt-5">
+            <div class="card-body">
+                <h3 class="card-title text-center mb-2">Редактировать объявление</h3>
+                <p class="text-muted text-center mb-4">Внесите изменения и нажмите кнопку</p>
+                <form method="post" enctype="multipart/form-data">
+                    {% csrf_token %}
+                    {{ form.as_p }}
+                    <div class="d-grid mt-3">
+                        <button type="submit" class="btn btn-primary">Сохранить изменения</button>
+                    </div>
+                </form>
+                <div class="text-center mt-3">
+                    <a href="{% url 'bulletin_list' %}">← Вернуться к списку</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

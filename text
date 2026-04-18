@@ -1,0 +1,20 @@
+Модели 
+User кастомный юзер через abstractuser
+user_name = None
+email = models.EmailField(unique=True)
+
+
+
+Bulletin - это модель всех объявлений 
+поля 
+user = внешний ключ от моделя юзер
+categories = 
+title = models.CharField(max_length=255)
+text = решил использовать RichTextUploadingField 
+created_at = models.DateTimeField(auto_now_add=True)
+
+
+Category - это модель всех категории 
+одно поле - это
+name = models.CharField(max_length=64, unique=True)
+

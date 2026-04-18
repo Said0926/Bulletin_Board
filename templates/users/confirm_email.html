@@ -1,0 +1,23 @@
+{% extends 'base.html' %}
+
+{% block title %}Подтверждение почты{% endblock %}
+
+{% block content %}
+<div class="row justify-content-center">
+    <div class="col-md-5">
+        <div class="card mt-5">
+            <div class="card-body">
+                <h3 class="card-title text-center mb-2">Подтверждение почты</h3>
+                <p class="text-muted text-center mb-4">Введите код который мы отправили на вашу почту</p>
+                <form method="post">
+                    {% csrf_token %}
+                    {{ form.as_p }}
+                    <div class="d-grid mt-3">
+                        <button type="submit" class="btn btn-primary">Подтвердить</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

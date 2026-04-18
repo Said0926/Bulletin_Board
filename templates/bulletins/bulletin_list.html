@@ -1,0 +1,26 @@
+{% extends 'base.html' %}
+
+{% block title %}Все объявления{% endblock %}
+
+{% block content %}
+    <h1 class="mb-4">Доска объявлений</h1>
+
+    <div class="row">
+        {% for bulletin in bulletins %}
+            <div class="col-md-6 mb-4">
+                <div class="card h-100">
+                    <div class="card-body">
+                        <span class="badge bg-secondary mb-2">{{ bulletin.get_category_display }}</span>
+                        <h5 class="card-title">{{ bulletin.title }}</h5>
+                        <p class="text-muted">Автор: {{ bulletin.author.email }}</p>
+                    </div>
+                    <div class="card-footer">
+                        <a href="{% url 'bulletin_detail' bulletin.pk %}" class="btn btn-primary btn-sm">Читать</a>
+                    </div>
+                </div>
+            </div>
+        {% empty %}
+            <p class="text-muted">Объявлений пока нет</p>
+        {% endfor %}
+    </div>
+{% endblock %}

@@ -1,0 +1,45 @@
+{% extends 'base.html' %}
+
+{% block title %}{{ bulletin.title }}{% endblock %}
+
+{% block content %}
+
+    <!-- Само объявление -->
+    <div class="card mb-4">
+        <div class="card-body">
+            <span class="badge bg-secondary mb-2">{{ bulletin.get_category_display }}</span>
+            <h1 class="card-title">{{ bulletin.title }}</h1>
+            <p class="text-muted">
+                Автор: {{ bulletin.author.email }} · {{ bulletin.created_at|date:"d.m.Y" }}
+            </p>
+            {% if user == bulletin.author %}
+                <a href="{% url 'bulletin_edit' bulletin.pk %}" class="btn btn-outline-secondary btn-sm">Редактировать</a>
+                <a href="{% url 'bulletin_delete' bulletin.pk %}" class="btn btn-outline-danger btn-sm">Удалить</a>
+            {% endif %}
+            <hr>
+            <!-- safe нужен чтобы HTML из CKEditor отрисовался -->
+            <div>{{ bulletin.text|safe }}</div>
+        </div>
+    </div>
+
+    <!-- Форма отклика -->
+    <div class="card">
+        <div class="card-body">
+            <h4 class="mb-3">Оставить отклик</h4>
+
+            {% if user.is_authenticated %}
+                <form method="post">
+                    {% csrf_token %}
+                    {{ form.as_p }}
+                    <button type="submit" class="btn btn-primary mt-2">Отправить</button>
+                </form>
+            {% else %}
+                <p class="text-muted">
+                    <a href="{% url 'login' %}">Войдите</a> чтобы оставить отклик
+                </p>
+            {% endif %}
+
+        </div>
+    </div>
+
+{% endblock %}

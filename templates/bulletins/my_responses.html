@@ -1,0 +1,64 @@
+{% extends 'base.html' %}
+
+{% block title %}Мои отклики{% endblock %}
+
+{% block content %}
+<div class="container mt-5">
+    <h2 class="mb-4">Отклики на мои объявления</h2>
+
+    <!-- Фильтрация -->
+    <div class="card mb-4">
+        <div class="card-body">
+            <form method="get" class="row g-3 align-items-center">
+                <div class="col-auto">
+                    <select name="bulletin" class="form-select">
+                        <option value="">Все объявления</option>
+                        {% for bulletin in bulletins %}
+                            <option value="{{ bulletin.pk }}">{{ bulletin.title }}</option>
+                        {% endfor %}
+                    </select>
+                </div>
+                <div class="col-auto">
+                    <button type="submit" class="btn btn-outline-primary">Фильтровать</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- Список откликов -->
+    {% for response in responses %}
+    <div class="card mb-3">
+        <div class="card-body">
+            <div class="d-flex justify-content-between align-items-start">
+                <div>
+                    <h6 class="card-subtitle mb-1 text-muted">{{ response.author.email }}</h6>
+                    <p class="card-text mt-2">{{ response.text }}</p>
+                    <small class="text-muted">На объявление: <strong>{{ response.bulletin.title }}</strong></small>
+                </div>
+                <div>
+                    {% if response.is_accepted %}
+                        <span class="badge bg-success">✅ Принят</span>
+                    {% else %}
+                        <span class="badge bg-secondary">⏳ Ожидает</span>
+                    {% endif %}
+                </div>
+            </div>
+            <div class="d-flex gap-2 mt-3">
+                {% if not response.is_accepted %}
+                <form method="post" action="{% url 'response_accept' response.pk %}">
+                    {% csrf_token %}
+                    <button type="submit" class="btn btn-success btn-sm">Принять</button>
+                </form>
+                {% endif %}
+                <form method="post" action="{% url 'response_delete' response.pk %}">
+                    {% csrf_token %}
+                    <button type="submit" class="btn btn-outline-danger btn-sm">Удалить</button>
+                </form>
+            </div>
+        </div>
+    </div>
+    {% empty %}
+        <p class="text-muted">Откликов пока нет.</p>
+    {% endfor %}
+</div>
+{% endblock %}

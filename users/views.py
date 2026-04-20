@@ -7,7 +7,6 @@ from django.contrib import messages
 from django.contrib.auth import authenticate, login
 
 
-# заглушки — потом заполним логикой
 class RegisterView(TemplateView):
     template_name = 'users/register.html'
 

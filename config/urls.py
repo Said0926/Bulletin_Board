@@ -24,6 +24,7 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     path('', include('bulletins.urls')),
     path('users/', include('users.urls')),
+    path('newsletter/', include('newsletter.urls')),
     path('ckeditor/', include('ckeditor_uploader.urls')),  # эндпоинты для загрузки
     
 ]

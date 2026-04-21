@@ -30,6 +30,23 @@
                         <li class="nav-item">
                             <a class="nav-link" href="{% url 'my_responses' %}">📬 Мои отклики</a>
                         </li>
+                        {% if user.is_staff %}
+                            <li class="nav-item">
+                                <a class="nav-link" href="{% url 'newsletter_create' %}">📢 Рассылка</a>
+                            </li>
+                        {% endif %}
+                        <li class="nav-item">
+                            <form method="post" action="{% url 'subscribe' %}">
+                                {% csrf_token %}
+                                <button type="submit" class="btn btn-link nav-link">
+                                    {% if user.is_subscribed_to_newsletter %}
+                                        🔔 Отписаться
+                                    {% else %}
+                                        🔔 Подписаться
+                                    {% endif %}
+                                </button>
+                            </form>
+                        </li>
                         <li class="nav-item">
                             <form method="post" action="{% url 'logout' %}">
                                 {% csrf_token %}

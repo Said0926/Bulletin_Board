@@ -2,6 +2,7 @@ from django.shortcuts import redirect, render
 from django.views.generic import TemplateView
 from users.models import User
 from .forms import RegisterForm, ConfirmEmailForm, LoginForm
+from django.views.generic import View
 from django.core.mail import send_mail
 from django.contrib import messages
 from django.contrib.auth import authenticate, login
@@ -82,4 +83,16 @@ class LoginView(TemplateView):
 class LogoutView(TemplateView):
     template_name = 'users/logout.html'
     
+
+# View для подписки 
+class SubscribeView(View):
+    # метод пост который меняет поле is_subscribed_to_newsletter
+    def post(self, request, *args, **kwargs):
+        if self.request.user.is_subscribed_to_newsletter: # усли True то ставит False
+            request.user.is_subscribed_to_newsletter = False
+        else: # а тут уже наоборот (получается один view для двух действий)
+            request.user.is_subscribed_to_newsletter = True
+        request.user.save() # сохраняет поле is_subscribed_to_newsletter
+        return redirect('bulletin_list') # перенаправляет на главную страницу
     
+            
